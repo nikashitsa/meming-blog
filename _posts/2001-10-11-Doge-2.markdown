@@ -1,0 +1,6 @@
+---
+layout: post
+title:  "Doge 2"
+categories: meme-template
+template_id: 284
+---

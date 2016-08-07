@@ -1,0 +1,6 @@
+---
+layout: post
+title:  "OMG Cat"
+categories: meme-template
+template_id: 379
+---

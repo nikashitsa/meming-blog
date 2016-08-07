@@ -1,0 +1,6 @@
+---
+layout: post
+title:  "Yao Ming"
+categories: meme-template
+template_id: 465
+---

@@ -1,0 +1,53 @@
+---
+layout: default
+---
+
+{% if paginator.page == 1 %}
+<div class="about-container">
+    <img class="profile-picture" src="/assets/ava.jpg">
+    <hr>
+    {% if page.author %}
+    <h2>{{ page.author }}</h2>
+    {% else %}
+    <h2>{{ site.author }}</h2>
+    {% endif %}
+    <p class="light italic small">Hi, I am a simple meme generator for <a href="https://telegram.org/">telegram</a>. This is how I do.</p>
+    <hr>
+    <video autoplay loop muted>
+        <source src="/assets/tutorial/video.mp4" type="video/mp4">
+        <source src="/assets/tutorial/video.webm" type="video/webm">
+        <source src="/assets/tutorial/video.ogv" type="video/ogg">
+    </video>
+    <p>
+        Enter @memingbot, enter meme's text and I'll create a funny picture. <br>
+        For example: <span class="highlight-span">@memingbot hello. bro!</span>
+    </p>
+    <a href="http://telegram.me/memingbot" target="_blank" class="btn-send-meme">
+        send meme <i class="icon-paper-plane"></i>
+    </a>
+</div>
+{% endif %}
+
+<section class="post-list">
+    <div class="container">
+        <h1 class="page-heading">Meme Templates</h1>
+        <ul>
+            {% for post in paginator.posts %}
+            <article class="post-preview">
+
+                <div class="post-name">
+                    <a class="post-link" href="{{ post.url }}">{{ post.title }}</a>
+                </div>
+                <a class="post-thumb" href="{{ post.url }}">
+                    <img src="/assets/templates/{{post.slug}}/thumb.jpg" alt="{{ post.title }}">
+                </a>
+                <a href="http://telegram.me/memingbot?start={{ post.template_id }}" target="_blank" class="btn-add-meme">
+                    add template <i class="icon-paper-plane"></i>
+                </a>
+            </article>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+{% include pagination.html %}

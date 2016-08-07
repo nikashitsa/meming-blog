@@ -1,0 +1,291 @@
+@charset "utf-8";
+@import "vars";
+@import "typography";
+@import "icons";
+
+/* Pretty Standard
+ * * * * * * * * * * */
+* {
+  &,
+  &:before,
+  &:after {
+    box-sizing: border-box;
+  }
+}
+html {
+  height: 100%;
+}
+
+.clearfix {
+  &:before {
+    content: " ";
+    display: table;
+  }
+
+  &:after {
+    content: " ";
+    display: table;
+    clear: both;
+  }
+
+  *zoom: 1;
+}
+
+hr {
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+hr.gradient {
+  border: 0;
+  height: 1px;
+  margin: 0;
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  margin: 0;
+  overflow-x: hidden;
+  font-family: $font-stack;
+  color: $base-font-color;
+  font-size: $base-font-size;
+  font-weight: 400;
+}
+
+/* Images Hack
+ * * * * * * * */
+img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: $base-highlight-color;
+}
+a:hover {
+  color: $base-highlight-color;
+  cursor: hand;
+}
+
+p {
+  font-size: $base-font-size;
+  font-weight: lighter;
+}
+
+.logo {
+  text-align: center;
+  margin: 0;
+  letter-spacing: 0.8px;
+  font-size: 40px;
+  font-family: Lobster, serif;
+  line-height: 28px;
+  font-weight: 300;
+  color: $dark-gray-color;
+  span {
+    font-weight: 700;
+  }
+  @media (max-width: $break-small) {
+    font-size: 38px;
+  }
+}
+
+.nav {
+  min-height: 64px;
+  border-bottom: thin solid $well-color;
+  background-color: $well-color;
+}
+
+.navlist {
+  list-style-type: none;
+  text-transform: lowercase;
+  color: $dark-gray-color;
+  min-height: 64px;
+  float: right;
+  margin: 0;
+  position: relative;
+  padding: 0;
+}
+
+.post-list {
+  text-align: center;
+  ul {
+    padding-left: 0.4em;
+  }
+  li {
+    list-style-type: none;
+    margin-left: 0;
+  }
+  background-color: $white-color;
+  .page-heading {
+    margin-top: 0;
+    font-weight: lighter;
+    font-size: 30px;
+  }
+}
+.post-preview {
+  margin-bottom: 5px;
+  padding: $base-spacing;
+  background-color: $well-color;
+  display: inline-block;
+  width: 240px;
+  text-align: center;
+  .post-name {
+    font-size: $base-font-size / 1.1;
+    height: 60px;
+    overflow: hidden;
+    @media (max-width: $break-small) {
+      display: block;
+    }
+    .post-link {
+      color: $git-black-color;
+      &:hover {
+        color: $blue-color;
+      }
+    }
+  }
+  .post-thumb img {
+    height: 120px;
+    padding-bottom: 5px;
+  }
+}
+
+.container {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: $base-spacing;
+  &.post {
+    text-align: center;
+    h1 {
+      margin-top: 0;
+    }
+    .post-image {
+      padding-bottom: 15px;
+    }
+  }
+}
+.about-container {
+  @extend .container;
+  text-align: center;
+  video {
+    height: auto;
+    max-width: 100%;
+  }
+}
+
+footer {
+  background-color: $well-color;
+  box-shadow: 0 500px 0 500px $well-color;
+  color: $git-black-color;
+  .container p {
+    font-weight: 400;
+  }
+  @media (max-width: $break-small) {
+    .container {
+      text-align: center;
+      display: block;
+    }
+    .container .alignable {
+      margin-bottom: 0.5em;
+      width: auto;
+      float: none;
+    }
+  }
+}
+
+#wrapper {
+  min-height: 100%;
+}
+#main {
+  overflow: auto;
+}
+#footer {
+  position: relative;
+  clear: both;
+}
+
+.alignable {
+  display: inline-block;
+  margin: 0;
+}
+.pull-left {
+  @extend .alignable;
+  float: left;
+}
+.pull-right {
+  @extend .alignable;
+  float: right;
+}
+
+.pagination {
+  padding-top: 0;
+  @extend .container;
+  margin-bottom: 1em;
+  display: block;
+  div {
+    width: 33%;
+  }
+  .text-center {
+    text-align: center;
+  }
+  .text-right {
+    width: 34%;
+    text-align: right;
+  }
+}
+
+img.profile-picture {
+  max-width: $profile-picture-size;
+  max-height: $profile-picture-size;
+  border-radius: $profile-picture-size;
+}
+
+.light {
+  font-weight: lighter;
+}
+.italic {
+  font-style: italic;
+}
+.small {
+  font-size: 19px;
+}
+.deactivate-link {
+  color: inherit;
+}
+.highlight-span {
+  background-color: $yellow-color;
+  padding: 0 0.1em;
+}
+
+.btn-send-meme {
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+  padding: 0 30px;
+  border-radius: 3px;
+  border: 1px solid #40aadc;
+  color: #40aadc;
+  background-color: #ffffff;
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  user-select: none;
+  text-transform: uppercase;
+  &:hover {
+    background-color: #40aadc;
+    color: #ffffff;
+  }
+}
+.btn-add-meme {
+  @extend .btn-send-meme;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 18px;
+}

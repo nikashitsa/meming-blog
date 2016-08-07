@@ -1,0 +1,6 @@
+---
+layout: post
+title:  "Idiotaco"
+categories: meme-template
+template_id: 84
+---

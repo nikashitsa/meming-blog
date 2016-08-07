@@ -1,0 +1,17 @@
+---
+layout: default
+---
+<div class="post container">
+    <h1>{{ page.title }}</h1>
+    <img class="post-image" src="../assets/templates/{{ page.slug }}/image.jpg" alt="{{ page.title }}">
+    <div>
+        <a href="https://telegram.me/memingbot?start={{ page.template_id }}" target="_blank" class="btn-add-meme">
+            add template <i class="icon-paper-plane"></i>
+        </a>
+    </div>
+    {% include share.html %}
+</div>
+
+{% if jekyll.environment == "production" %}
+    {% include disqus.html %}
+{% endif %}
