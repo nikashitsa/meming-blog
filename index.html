@@ -2,15 +2,79 @@
 layout: default
 ---
 
-{% if paginator.page == 1 %}
+{% assign perPage = 8 %}
+<!-- infinity scroll script -->
+<script>
+$(function() {
+    var posts = [{% for post in site.posts offset: perPage %}{
+        title: '{{ post.title | replace: "'", "\\'" }}',
+        url: '{{ post.url }}',
+        slug: '{{ post.slug }}',
+        template_id: '{{ post.template_id }}'
+    },{% endfor %}];
+
+    var perPage = {{ perPage }};
+    var loadedNum = 0;
+    var scrollThreshold = 300;
+    var shouldLoad = true;
+
+    var $postPreviews = $('.js-post-previews');
+
+    $(window).scroll(function() {
+        if (!shouldLoad) return;
+
+        var windowHeight = $(window).height(),
+        windowScrollPosition = $(window).scrollTop(),
+        bottomScrollPosition = windowHeight + windowScrollPosition,
+        documentHeight = $(document).height();
+
+        // If we've scrolled past the scrollThreshold, fetch posts
+        if ((documentHeight - scrollThreshold) < bottomScrollPosition) {
+            loadPosts();
+        }
+    });
+
+    function loadPosts() {
+        if (loadedNum >= posts.length) {
+            shouldLoad = false;
+            return;
+        }
+        for (var i = 0; i < perPage; i++) {
+            var data = posts[loadedNum];
+            if (!data) {
+                break;
+            }
+            appendPost(data);
+            loadedNum++;
+        }
+    }
+
+    function appendPost(data) {
+        var html = tmpl('tmpl-post-preview', data);
+        $postPreviews.append(html);
+    }
+});
+</script>
+
+{% raw %}
+<script type="text/x-tmpl" id="tmpl-post-preview">
+    <article class="post-preview">
+        <div class="post-name">
+            <a class="post-link" href="{%#o.url%}">{%#o.title%}</a>
+        </div>
+        <a class="post-thumb" href="{%#o.url%}">
+            <img src="/assets/templates/{%#o.slug%}/thumb.jpg" alt="{%#o.title%}">
+        </a>
+        <a href="https://t.me/memingbot?start={%#o.template_id%}" target="_blank" class="btn-add-meme">
+            add template <i class="icon-paper-plane"></i>
+        </a>
+    </article>
+</script>
+{% endraw %}
+
 <div class="about-container">
-    <img class="profile-picture" src="/assets/ava.jpg">
+    <img class="profile-picture" src="/assets/img/ava.jpg">
     <hr>
-    {% if page.author %}
-    <h2>{{ page.author }}</h2>
-    {% else %}
-    <h2>{{ site.author }}</h2>
-    {% endif %}
     <p class="light italic small">Hi, I am a simple meme generator for <a href="https://telegram.org/">telegram</a>. This is how I do.</p>
     <hr>
     <video autoplay loop muted>
@@ -25,13 +89,12 @@ layout: default
         send meme <i class="icon-paper-plane"></i>
     </a>
 </div>
-{% endif %}
 
 <section class="post-list">
     <div class="container">
         <h1 class="page-heading">Meme Templates</h1>
-        <ul>
-            {% for post in paginator.posts %}
+        <ul class="js-post-previews">
+            {% for post in site.posts limit: perPage %}
             <article class="post-preview">
 
                 <div class="post-name">
@@ -48,5 +111,3 @@ layout: default
         </ul>
     </div>
 </section>
-
-{% include pagination.html %}
