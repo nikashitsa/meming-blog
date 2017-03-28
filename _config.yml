@@ -17,8 +17,6 @@ title: Meming Bot
 description: "Simple meme generator for telegram"
 keywords: "telegram, meme, bot"
 url: "https://memingbot.ml" # the base hostname & protocol for your site
-paginate: 12
-paginate_path: "/page/:num"
 permalink: none
 comments: true
 google_analytics: true
@@ -29,5 +27,4 @@ repository: "nikashitsa/meming-blog"
 # Build settings
 markdown: kramdown
 gems:
-  - jekyll-paginate
   - jekyll-sitemap

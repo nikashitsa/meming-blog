@@ -16,9 +16,17 @@ $(function() {
     var perPage = {{ perPage }};
     var loadedNum = 0;
     var scrollThreshold = 300;
-    var shouldLoad = true;
+    var shouldLoad = false;
 
     var $postPreviews = $('.js-post-previews');
+
+    var $loadMoreBtn = $('.js-load-more');
+    $loadMoreBtn.on('click', function(e) {
+        e.preventDefault();
+        loadPosts();
+        $loadMoreBtn.remove();
+        shouldLoad = true;
+    });
 
     $(window).scroll(function() {
         if (!shouldLoad) return;
@@ -109,5 +117,6 @@ $(function() {
             </article>
             {% endfor %}
         </ul>
+        <a class="js-load-more" href="">LOAD MORE</a>
     </div>
 </section>
