@@ -1,6 +1,0 @@
----
-layout: post
-title:  "Lil Wayne"
-categories: meme-template
-template_id: 335
----

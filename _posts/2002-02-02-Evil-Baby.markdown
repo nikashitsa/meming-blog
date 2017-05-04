@@ -1,6 +1,0 @@
----
-layout: post
-title:  "Evil Baby"
-categories: meme-template
-template_id: 398
----

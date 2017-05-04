@@ -24,6 +24,19 @@ tracking_id: "UA-81231801-3"
 google_site_verification: "C5DkIE_1Ak6dHUOw82afKBViJdJuKws_raV5xeVfLC0"
 repository: "nikashitsa/meming-blog"
 
+collections:
+  meme-templates:
+    output: true
+    permalink: /meme-template/:title:output_ext
+
+defaults:
+  -
+    scope:
+      path: ''
+      type: 'meme-templates'
+    values:
+      layout: 'post'
+
 # Build settings
 markdown: kramdown
 gems:

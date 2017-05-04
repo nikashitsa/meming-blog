@@ -1,6 +1,0 @@
----
-layout: post
-title:  "Bebo"
-categories: meme-template
-template_id: 220
----

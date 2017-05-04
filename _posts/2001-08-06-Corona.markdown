@@ -1,6 +1,0 @@
----
-layout: post
-title:  "Corona"
-categories: meme-template
-template_id: 218
----

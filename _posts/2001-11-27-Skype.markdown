@@ -1,6 +1,0 @@
----
-layout: post
-title:  "Skype"
-categories: meme-template
-template_id: 331
----

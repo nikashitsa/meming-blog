@@ -3,14 +3,14 @@ layout: default
 ---
 
 {% assign perPage = 8 %}
+{% assign memeTemplates = (site.meme-templates | sort: 'template_id') | reverse %}
 <!-- infinity scroll script -->
 <script>
 $(function() {
-    var posts = [{% for post in site.posts offset: perPage %}{
-        title: '{{ post.title | replace: "'", "\\'" }}',
-        url: '{{ post.url }}',
-        slug: '{{ post.slug }}',
-        template_id: '{{ post.template_id }}'
+    var memeTemplates = [{% for item in memeTemplates offset: perPage %}{
+        title: '{{ item.title | replace: "'", "\\'" }}',
+        url: '{{ item.url }}',
+        template_id: '{{ item.template_id }}'
     },{% endfor %}];
 
     var perPage = {{ perPage }};
@@ -18,12 +18,12 @@ $(function() {
     var scrollThreshold = 300;
     var shouldLoad = false;
 
-    var $postPreviews = $('.js-post-previews');
+    var $previews = $('.js-previews');
 
     var $loadMoreBtn = $('.js-load-more');
     $loadMoreBtn.on('click', function(e) {
         e.preventDefault();
-        loadPosts();
+        loadMemeTemplates();
         $loadMoreBtn.remove();
         shouldLoad = true;
     });
@@ -36,42 +36,42 @@ $(function() {
         bottomScrollPosition = windowHeight + windowScrollPosition,
         documentHeight = $(document).height();
 
-        // If we've scrolled past the scrollThreshold, fetch posts
+        // If we've scrolled past the scrollThreshold, fetch memeTemplates
         if ((documentHeight - scrollThreshold) < bottomScrollPosition) {
-            loadPosts();
+            loadMemeTemplates();
         }
     });
 
-    function loadPosts() {
-        if (loadedNum >= posts.length) {
+    function loadMemeTemplates() {
+        if (loadedNum >= memeTemplates.length) {
             shouldLoad = false;
             return;
         }
         for (var i = 0; i < perPage; i++) {
-            var data = posts[loadedNum];
+            var data = memeTemplates[loadedNum];
             if (!data) {
                 break;
             }
-            appendPost(data);
+            appendMemeTemplates(data);
             loadedNum++;
         }
     }
 
-    function appendPost(data) {
-        var html = tmpl('tmpl-post-preview', data);
-        $postPreviews.append(html);
+    function appendMemeTemplates(data) {
+        var html = tmpl('tmpl-meme-template-preview', data);
+        $previews.append(html);
     }
 });
 </script>
 
 {% raw %}
-<script type="text/x-tmpl" id="tmpl-post-preview">
-    <article class="post-preview">
-        <div class="post-name">
-            <a class="post-link" href="{%#o.url%}">{%#o.title%}</a>
+<script type="text/x-tmpl" id="tmpl-meme-template-preview">
+    <article class="meme-template-preview">
+        <div class="meme-template-name">
+            <a class="meme-template-link" href="{%#o.url%}">{%#o.title%}</a>
         </div>
-        <a class="post-thumb" href="{%#o.url%}">
-            <img src="/assets/templates/{%#o.slug%}/thumb.jpg" alt="{%#o.title%}">
+        <a class="meme-template-thumb" href="{%#o.url%}">
+            <img src="/assets/templates/{%#o.template_id%}/thumb.jpg" alt="{%#o.title%}">
         </a>
         <a href="https://t.me/memingbot?start={%#o.template_id%}" target="_blank" class="btn-add-meme">
             add template <i class="icon-paper-plane"></i>
@@ -98,20 +98,20 @@ $(function() {
     </a>
 </div>
 
-<section class="post-list">
+<section class="meme-template-list">
     <div class="container">
         <h1 class="page-heading">Meme Templates</h1>
-        <ul class="js-post-previews">
-            {% for post in site.posts limit: perPage %}
-            <article class="post-preview">
+        <ul class="js-previews">
+            {% for item in memeTemplates limit: perPage %}
+            <article class="meme-template-preview">
 
-                <div class="post-name">
-                    <a class="post-link" href="{{ post.url }}">{{ post.title }}</a>
+                <div class="meme-template-name">
+                    <a class="meme-template-link" href="{{ item.url }}">{{ item.title }}</a>
                 </div>
-                <a class="post-thumb" href="{{ post.url }}">
-                    <img src="/assets/templates/{{post.slug}}/thumb.jpg" alt="{{ post.title }}">
+                <a class="meme-template-thumb" href="{{ item.url }}">
+                    <img src="/assets/templates/{{ item.template_id }}/thumb.jpg" alt="{{ item.title }}">
                 </a>
-                <a href="https://t.me/memingbot?start={{ post.template_id }}" target="_blank" class="btn-add-meme">
+                <a href="https://t.me/memingbot?start={{ item.template_id }}" target="_blank" class="btn-add-meme">
                     add template <i class="icon-paper-plane"></i>
                 </a>
             </article>
