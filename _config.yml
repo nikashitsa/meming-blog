@@ -27,7 +27,7 @@ repository: "nikashitsa/meming-blog"
 collections:
   meme-templates:
     output: true
-    permalink: /meme-template/:title:output_ext
+    permalink: /meme-template/:title
 
 defaults:
   -
