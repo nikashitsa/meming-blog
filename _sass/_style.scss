@@ -175,8 +175,19 @@ p {
   @extend .container;
   text-align: center;
   video {
-    height: auto;
+    height: 100%;
     max-width: 100%;
+  }
+  .tutorial-wrapper {
+    margin-top: 15px;
+    background: url('/assets/img/iphone_black.png') no-repeat center;
+    background-size: contain;
+    height: 600px;
+    padding: 76px 7px 82px 0;
+    @media (max-width: $break-small) {
+      height: 400px;
+      padding: 50px 5px 55px 0px;
+    }
   }
 }
 
