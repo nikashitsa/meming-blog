@@ -10,7 +10,7 @@
     <meta name="description" content="{% if page.title %}Meme template: {{ page.title }}{% else %}{{ site.description }}{% endif %}"/>
     <meta name="keywords" content="{{ site.keywords }}"/>
     <meta name="google-site-verification" content="{{ site.google_site_verification }}" />
-    <link rel="stylesheet" href="/assets/styles/main.css">
+    <link rel="stylesheet" href="{{"/assets/styles/main.css" | prepend: site.baseurl }}?{{site.time | date: '%s%N'}}">
     <link rel="stylesheet" href="/assets/styles/fontello-embedded.css">
     <link rel="canonical" href="{{ site.url }}{{ page.url }}">
     <script src="/assets/js/jquery-3.2.0.js"></script>
