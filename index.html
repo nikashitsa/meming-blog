@@ -7,16 +7,16 @@ layout: default
 <!-- infinity scroll script -->
 <script>
 $(function() {
-    var memeTemplates = [{% for item in memeTemplates offset: perPage %}{
+    var memeTemplates = [{% for item in memeTemplates %}{
         title: '{{ item.title | replace: "'", "\\'" }}',
         url: '{{ item.url }}',
         template_id: '{{ item.template_id }}'
     },{% endfor %}];
-
+    var foundMemeTemplates = memeTemplates;
     var perPage = {{ perPage }};
-    var loadedNum = 0;
+    var loadedNum = perPage;
     var scrollThreshold = 300;
-    var shouldLoad = false;
+    var shouldLoadOnScroll = false;
 
     var $previews = $('.js-previews');
 
@@ -24,12 +24,12 @@ $(function() {
     $loadMoreBtn.on('click', function(e) {
         e.preventDefault();
         loadMemeTemplates();
-        $loadMoreBtn.remove();
-        shouldLoad = true;
+        $loadMoreBtn.hide();
+        shouldLoadOnScroll = true;
     });
 
     $(window).scroll(function() {
-        if (!shouldLoad) return;
+        if (!shouldLoadOnScroll) return;
 
         var windowHeight = $(window).height(),
         windowScrollPosition = $(window).scrollTop(),
@@ -42,13 +42,20 @@ $(function() {
         }
     });
 
+    var $searchInput = $('.js-search-input');
+    $searchInput.on('input', search);
+    $('.js-search-form').on('submit', function(e) {
+        e.preventDefault();
+    });
+
     function loadMemeTemplates() {
-        if (loadedNum >= memeTemplates.length) {
-            shouldLoad = false;
+        console.log('loadMemeTemplates');
+        if (loadedNum >= foundMemeTemplates.length) {
+            shouldLoadOnScroll = false;
             return;
         }
         for (var i = 0; i < perPage; i++) {
-            var data = memeTemplates[loadedNum];
+            var data = foundMemeTemplates[loadedNum];
             if (!data) {
                 break;
             }
@@ -60,6 +67,43 @@ $(function() {
     function appendMemeTemplates(data) {
         var html = tmpl('tmpl-meme-template-preview', data);
         $previews.append(html);
+    }
+
+    var $nothingFoundLabel = $('.js-nothing-found');
+    function search() {
+        $nothingFoundLabel.hide();
+        var text = $searchInput.val().trim();
+        if (text.length === 0) {
+            foundMemeTemplates = memeTemplates
+        } else {
+            var re = new RegExp(text, 'i');
+            foundMemeTemplates = memeTemplates.filter(function(item) {
+                return item.title.match(re);
+            });
+        }
+        $previews.empty();
+        loadedNum = 0;
+        shouldLoadOnScroll = false;
+
+        if (foundMemeTemplates.length === 0) {
+            $nothingFoundLabel.show();
+        } else {
+            loadMemeTemplates();
+        }
+        if (foundMemeTemplates.length > perPage) {
+            $loadMoreBtn.show();
+        } else {
+            $loadMoreBtn.hide();
+        }
+        scrollToMemeTemplateList(); 
+    }
+
+    var $memeTemplateList = $('.js-meme-template-list');
+    var $htmlBody = $('html, body');
+    function scrollToMemeTemplateList() {
+        $htmlBody.animate({
+            scrollTop: $memeTemplateList.offset().top
+        }, 0);
     }
 });
 </script>
@@ -100,9 +144,13 @@ $(function() {
     </a>
 </div>
 
-<section class="meme-template-list">
+<section class="js-meme-template-list meme-template-list">
     <div class="container">
         <h1 class="page-heading">Meme Templates</h1>
+        <form class="js-search-form search-form">
+            <input class="js-search-input" type="text" placeholder="Search..." value="">
+            <button><i class="icon-search"></i></button>
+        </form>
         <ul class="js-previews">
             {% for item in memeTemplates limit: perPage %}
             <article class="meme-template-preview">
@@ -120,5 +168,6 @@ $(function() {
             {% endfor %}
         </ul>
         <a class="js-load-more" href="">LOAD MORE</a>
+        <div class="js-nothing-found" style="display: none;">Nothing found :(</div>
     </div>
 </section>
