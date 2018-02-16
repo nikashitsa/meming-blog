@@ -32,12 +32,17 @@ collections:
 defaults:
   -
     scope:
-      path: ''
-      type: 'meme-templates'
+      path: ""
+      type: "meme-templates"
     values:
-      layout: 'post'
+      layout: "post"
 
 # Build settings
 markdown: kramdown
-gems:
+plugins:
   - jekyll-sitemap
+
+compress:
+  js: '/assets/js/*.js'
+  css: '/assets/styles/*.css'
+  img: '/assets/**/*.{jpg,png}'

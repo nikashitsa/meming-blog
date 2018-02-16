@@ -3,7 +3,7 @@ layout: default
 ---
 
 {% assign perPage = 8 %}
-{% assign memeTemplates = (site.meme-templates | sort: 'template_id') | reverse %}
+{% assign memeTemplates = site.meme-templates | sort: 'template_id' | reverse %}
 <!-- infinity scroll script -->
 <script>
 $(function() {
@@ -94,7 +94,7 @@ $(function() {
         } else {
             $loadMoreBtn.hide();
         }
-        scrollToMemeTemplateList(); 
+        scrollToMemeTemplateList();
     }
 
     var $memeTemplateList = $('.js-meme-template-list');
@@ -133,7 +133,7 @@ $(function() {
             <source src="/assets/tutorial/video.mp4" type="video/mp4">
             <source src="/assets/tutorial/video.webm" type="video/webm">
         </video>
-    </div>    
+    </div>
     <p>
         Enter @memingbot, enter meme's text and I'll create a funny picture. <br>
         For example: <span class="highlight-span">@memingbot hello. bro!</span>
