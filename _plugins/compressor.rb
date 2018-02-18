@@ -4,6 +4,7 @@ require 'image_optimizer'
 
 Jekyll::Hooks.register :site, :post_write do |site|
   next if Jekyll.env != 'production'
+  next if !site.config['compress']
 
   Jekyll.logger.info('Compressing js...')
   Dir[site.config['destination'] + site.config['compress']['js']].each do |path|
