@@ -122,14 +122,15 @@ $(function() {
     paramName: 'meme',
     autoUpload: false,
     add: function(e, data) {
-      var limit = 2 * 1024 * 1024;
+      var limit = 5 * 1024 * 1024;
       if (data.files[0] && data.files[0]['size'] > limit) {
-        return showError('File is too large. Maximum file size is 2MB.');
+        return showError('File is too large. Maximum file size is 5MB.');
       }
       data.submit();
     },
     start: function() {
-      $searchInput.prop('disabled', true);
+      $searchInput.prop('disabled', true).show();
+      $clearImageSearch.hide();
       searchDots = '...';
       $searchInput.val('Searching' + searchDots);
       searchInterval = setInterval(function() {
