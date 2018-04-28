@@ -141,7 +141,7 @@ p {
   @media (max-width: $break-small) {
     width: 240px;
   }
-  input {
+  input[type="text"] {
     position: absolute;
     left: 0px;
     top: 0px;
@@ -152,20 +152,80 @@ p {
     font-size: 16px;
     padding-right: 37px;
     color: $dark-gray-color;
+    &.hidden {
+      display: none;
+    }
+    &:disabled {
+      background-color: white;
+    }
     &:focus {
       outline: none;
     }
   }
-  button {
+  input[type="file"] {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    border: none;
+    width: 100%;
+    height: 40px;
+    opacity: 0;
+    cursor: pointer;
+    font-size: 200px !important;
+    direction: ltr;
+    &:focus {
+      outline: none;
+    }
+  }
+  .btn {
     width: 40px;
     height: 40px;
     position: absolute;
     top: 0px;
-    right: 0px;
     background: transparent;
     border: 0;
     outline: none;
+    padding-top: 10px;
+    font-size: 14px;
     cursor: pointer;
+    &.first {
+      right: 40px;
+    }
+    &.second {
+      right: 0;
+    }
+  }
+  .clear-image-search {
+    cursor: pointer;
+    position: absolute;
+    height: 34px;
+    line-height: 32px;
+    padding: 0 10px;
+    z-index: 10;
+    background-color: white;
+    font-size: 16px;
+    margin: 2px;
+    border-radius: 3px;
+    color: #40aadc;
+    border: 1px solid #40aadc;
+    &:hover {
+      background-color: #40aadc;
+      color: white;
+    }
+    .name {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      direction: rtl;
+      display: inline-block;
+      max-width: 200px;
+      @media (max-width: $break-small) {
+        max-width: 100px;
+      }
+    }
+    .cancel {
+      float: right;
+      font-size: 14px;
+    }
   }
 }
 .meme-template-preview {

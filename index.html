@@ -7,166 +7,248 @@ layout: default
 <!-- infinity scroll script -->
 <script>
 $(function() {
-    var memeTemplates = [{% for item in memeTemplates %}{
-        title: '{{ item.title | replace: "'", "\\'" }}',
-        url: '{{ item.url }}',
-        template_id: '{{ item.template_id }}'
-    },{% endfor %}];
-    var foundMemeTemplates = memeTemplates;
-    var perPage = {{ perPage }};
-    var loadedNum = perPage;
-    var scrollThreshold = 300;
-    var shouldLoadOnScroll = false;
+  var memeTemplates = [{% for item in memeTemplates %}{
+    title: '{{ item.title | replace: "'", "\\'" }}',
+    url: '{{ item.url }}',
+    template_id: '{{ item.template_id }}'
+  },{% endfor %}];
+  var foundMemeTemplates = memeTemplates;
+  var perPage = {{ perPage }};
+  var loadedNum = perPage;
+  var scrollThreshold = 300;
+  var shouldLoadOnScroll = false;
 
-    var $previews = $('.js-previews');
+  var $previews = $('.js-previews');
 
-    var $loadMoreBtn = $('.js-load-more');
-    $loadMoreBtn.on('click', function(e) {
-        e.preventDefault();
-        loadMemeTemplates();
-        $loadMoreBtn.hide();
-        shouldLoadOnScroll = true;
-    });
+  var $loadMoreBtn = $('.js-load-more');
+  $loadMoreBtn.on('click', function(e) {
+    e.preventDefault();
+    loadMemeTemplates();
+    $loadMoreBtn.hide();
+    shouldLoadOnScroll = true;
+  });
 
-    $(window).scroll(function() {
-        if (!shouldLoadOnScroll) return;
+  $(window).scroll(function() {
+    if (!shouldLoadOnScroll) return;
 
-        var windowHeight = $(window).height(),
-        windowScrollPosition = $(window).scrollTop(),
-        bottomScrollPosition = windowHeight + windowScrollPosition,
-        documentHeight = $(document).height();
+    var windowHeight = $(window).height(),
+    windowScrollPosition = $(window).scrollTop(),
+    bottomScrollPosition = windowHeight + windowScrollPosition,
+    documentHeight = $(document).height();
 
-        // If we've scrolled past the scrollThreshold, fetch memeTemplates
-        if ((documentHeight - scrollThreshold) < bottomScrollPosition) {
-            loadMemeTemplates();
-        }
-    });
-
-    var $searchInput = $('.js-search-input');
-    $searchInput.on('input', search);
-    $('.js-search-form').on('submit', function(e) {
-        e.preventDefault();
-    });
-
-    function loadMemeTemplates() {
-        if (loadedNum >= foundMemeTemplates.length) {
-            shouldLoadOnScroll = false;
-            return;
-        }
-        for (var i = 0; i < perPage; i++) {
-            var data = foundMemeTemplates[loadedNum];
-            if (!data) {
-                break;
-            }
-            appendMemeTemplates(data);
-            loadedNum++;
-        }
+    // If we've scrolled past the scrollThreshold, fetch memeTemplates
+    if ((documentHeight - scrollThreshold) < bottomScrollPosition) {
+      loadMemeTemplates();
     }
+  });
 
-    function appendMemeTemplates(data) {
-        var html = tmpl('tmpl-meme-template-preview', data);
-        $previews.append(html);
+  var $searchInput = $('.js-search-input');
+  $searchInput.on('input', search);
+  $('.js-search-form').on('submit', function(e) {
+    e.preventDefault();
+  });
+
+  function loadMemeTemplates() {
+    if (loadedNum >= foundMemeTemplates.length) {
+      shouldLoadOnScroll = false;
+      return;
     }
-
-    var $nothingFoundLabel = $('.js-nothing-found');
-    function search() {
-        $nothingFoundLabel.hide();
-        var text = $searchInput.val().trim();
-        if (text.length === 0) {
-            foundMemeTemplates = memeTemplates
-        } else {
-            var re = new RegExp(text, 'i');
-            foundMemeTemplates = memeTemplates.filter(function(item) {
-                return item.title.match(re);
-            });
-        }
-        $previews.empty();
-        loadedNum = 0;
-        shouldLoadOnScroll = false;
-
-        if (foundMemeTemplates.length === 0) {
-            $nothingFoundLabel.show();
-        } else {
-            loadMemeTemplates();
-        }
-        if (foundMemeTemplates.length > perPage) {
-            $loadMoreBtn.show();
-        } else {
-            $loadMoreBtn.hide();
-        }
-        scrollToMemeTemplateList();
+    for (var i = 0; i < perPage; i++) {
+      var data = foundMemeTemplates[loadedNum];
+      if (!data) {
+          break;
+      }
+      appendMemeTemplates(data);
+      loadedNum++;
     }
+  }
 
-    var $memeTemplateList = $('.js-meme-template-list');
-    var $htmlBody = $('html, body');
-    function scrollToMemeTemplateList() {
-        $htmlBody.animate({
-            scrollTop: $memeTemplateList.offset().top
-        }, 0);
+  function appendMemeTemplates(data) {
+    var html = tmpl('tmpl-meme-template-preview', data);
+    $previews.append(html);
+  }
+
+  var $searchErrorLabel = $('.js-search-error');
+  function search() {
+    $searchErrorLabel.hide();
+    var text = $searchInput.val().trim();
+    if (text.length === 0) {
+      foundMemeTemplates = memeTemplates
+    } else {
+      var re = new RegExp(text, 'i');
+      foundMemeTemplates = memeTemplates.filter(function(item) {
+        return item.title.match(re);
+      });
     }
+    showFoundMemes();
+  }
+
+  function showFoundMemes() {
+    $previews.empty();
+    loadedNum = 0;
+    shouldLoadOnScroll = false;
+
+    if (foundMemeTemplates.length === 0) {
+      $searchErrorLabel.text('Nothing found :(').show();
+    } else {
+      loadMemeTemplates();
+    }
+    if (foundMemeTemplates.length > perPage) {
+      $loadMoreBtn.show();
+    } else {
+      $loadMoreBtn.hide();
+    }
+    scrollToMemeTemplateList();
+  }
+
+  var $memeTemplateList = $('.js-meme-template-list');
+  var $htmlBody = $('html, body');
+  function scrollToMemeTemplateList() {
+    $htmlBody.animate({
+      scrollTop: $memeTemplateList.offset().top
+    }, 0);
+  }
+
+  var searchInterval;
+  var searchDots;
+  var $clearImageSearch = $('.js-clear-image-search');
+  var $clearImageSearchName = $clearImageSearch.find('.js-name');
+  if (!$.support.fileInput) {
+    $('.js-image-search-btn').hide();
+  }
+  $('.js-image-search-input').fileupload({
+    url: 'https://search.memingbot.ml/search',
+    dataType: 'json',
+    paramName: 'meme',
+    autoUpload: false,
+    add: function(e, data) {
+      var limit = 2 * 1024 * 1024;
+      if (data.files[0] && data.files[0]['size'] > limit) {
+        return showError('File is too large. Maximum file size is 2MB.');
+      }
+      data.submit();
+    },
+    start: function() {
+      $searchInput.prop('disabled', true);
+      searchDots = '...';
+      $searchInput.val('Searching' + searchDots);
+      searchInterval = setInterval(function() {
+        searchDots += '.'
+        if (searchDots.length > 3) {
+          searchDots = '.'
+        }
+        $searchInput.val('Searching' + searchDots);
+      }, 500);
+    },
+    done: function(e, data) {
+      $searchErrorLabel.hide();
+      foundMemeTemplates = data.result.data.map(function(item) {
+        return memeTemplates.filter(function(meme) {
+          return meme.template_id === item.id;
+        })[0];
+      });
+      showFoundMemes();
+    },
+    fail: function(e, data) {
+      var errorMessage = data.errorThrown;
+      if (data.jqXHR.responseJSON && data.jqXHR.responseJSON.message) {
+        errorMessage = data.jqXHR.responseJSON.message;
+      }
+      showError(errorMessage);
+    },
+    always: function(e, data) {
+      clearInterval(searchInterval);
+      $searchInput.hide();
+      $clearImageSearchName.text(data.files[0].name || 'image.jpg');
+      $clearImageSearch.show();
+    }
+  });
+
+  function showError(errorMessage) {
+    $previews.empty();
+    loadedNum = 0;
+    shouldLoadOnScroll = false;
+    $loadMoreBtn.hide();
+    scrollToMemeTemplateList();
+    $searchErrorLabel.text(errorMessage).show();
+  }
+
+  $clearImageSearch.on('click', function() {
+    $clearImageSearch.hide();
+    $searchInput.val('').prop('disabled', false).show();
+    search();
+  });
 });
 </script>
 
 {% raw %}
 <script type="text/x-tmpl" id="tmpl-meme-template-preview">
-    <article class="meme-template-preview">
-        <div class="meme-template-name">
-            <a class="meme-template-link" href="{%#o.url%}">{%#o.title%}</a>
-        </div>
-        <a class="meme-template-thumb" href="{%#o.url%}">
-            <img src="/assets/templates/{%#o.template_id%}/thumb.jpg" alt="{%#o.title%}">
-        </a>
-        <a href="https://t.me/memingbot?start={%#o.template_id%}" target="_blank" class="btn-add-meme">
-            add template <i class="icon-paper-plane"></i>
-        </a>
-    </article>
+  <article class="meme-template-preview">
+    <div class="meme-template-name">
+      <a class="meme-template-link" href="{%#o.url%}">{%#o.title%}</a>
+    </div>
+    <a class="meme-template-thumb" href="{%#o.url%}">
+      <img src="/assets/templates/{%#o.template_id%}/thumb.jpg" alt="{%#o.title%}">
+    </a>
+    <a href="https://t.me/memingbot?start={%#o.template_id%}" target="_blank" class="btn-add-meme">
+      add template <i class="icon-paper-plane"></i>
+    </a>
+  </article>
 </script>
 {% endraw %}
 
 <div class="about-container">
-    <img class="profile-picture" src="/assets/img/ava.jpg">
-    <hr>
-    <p class="light italic small">Hi, I am a simple meme generator for <a href="https://telegram.org/">telegram</a>. This is how I do.</p>
-    <hr>
-    <div class="tutorial-wrapper">
-        <video autoplay loop muted playsinline>
-            <source src="/assets/tutorial/video.mp4" type="video/mp4">
-            <source src="/assets/tutorial/video.webm" type="video/webm">
-        </video>
-    </div>
-    <p>
-        Enter @memingbot, enter meme's text and I'll create a funny picture. <br>
-        For example: <span class="highlight-span">@memingbot hello. bro!</span>
-    </p>
-    <a href="https://t.me/memingbot" target="_blank" class="btn-send-meme">
-        send meme <i class="icon-paper-plane"></i>
-    </a>
+  <img class="profile-picture" src="/assets/img/ava.jpg">
+  <hr>
+  <p class="light italic small">Hi, I am a simple meme generator for <a href="https://telegram.org/">telegram</a>. This is how I do.</p>
+  <hr>
+  <div class="tutorial-wrapper">
+    <video autoplay loop muted playsinline>
+      <source src="/assets/tutorial/video.mp4" type="video/mp4">
+      <source src="/assets/tutorial/video.webm" type="video/webm">
+    </video>
+  </div>
+  <p>
+    Enter @memingbot, enter meme's text and I'll create a funny picture. <br>
+    For example: <span class="highlight-span">@memingbot hello. bro!</span>
+  </p>
+  <a href="https://t.me/memingbot" target="_blank" class="btn-send-meme">
+    send meme <i class="icon-paper-plane"></i>
+  </a>
 </div>
 
 <section class="js-meme-template-list meme-template-list">
-    <div class="container">
-        <h1 class="page-heading">Meme Templates</h1>
-        <form class="js-search-form search-form">
-            <input class="js-search-input" type="text" placeholder="Search..." value="">
-            <button><i class="icon-search"></i></button>
-        </form>
-        <ul class="js-previews">
-            {% for item in memeTemplates limit: perPage %}
-            <article class="meme-template-preview">
+  <div class="container">
+    <h1 class="page-heading">Meme Templates</h1>
+    <form class="js-search-form search-form">
+      <div class="clear-image-search js-clear-image-search" style="display: none;">
+        <span class="name js-name"></span>
+        <div class="cancel"><i class="icon-cancel"></i></div>
+      </div>
+      <input class="js-search-input" type="text" placeholder="Search..." value="" autocomplete="off">
+      <div class="btn first js-image-search-btn">
+        <i class="icon-camera"></i>
+        <input class="js-image-search-input" type="file" accept="image/*">
+      </div>
+      <div class="btn second"><i class="icon-search"></i></div>
+    </form>
+    <ul class="js-previews">
+      {% for item in memeTemplates limit: perPage %}
+      <article class="meme-template-preview">
 
-                <div class="meme-template-name">
-                    <a class="meme-template-link" href="{{ item.url }}">{{ item.title }}</a>
-                </div>
-                <a class="meme-template-thumb" href="{{ item.url }}">
-                    <img src="/assets/templates/{{ item.template_id }}/thumb.jpg" alt="{{ item.title }}">
-                </a>
-                <a href="https://t.me/memingbot?start={{ item.template_id }}" target="_blank" class="btn-add-meme">
-                    add template <i class="icon-paper-plane"></i>
-                </a>
-            </article>
-            {% endfor %}
-        </ul>
-        <a class="js-load-more" href="">LOAD MORE</a>
-        <div class="js-nothing-found" style="display: none;">Nothing found :(</div>
-    </div>
+        <div class="meme-template-name">
+          <a class="meme-template-link" href="{{ item.url }}">{{ item.title }}</a>
+        </div>
+        <a class="meme-template-thumb" href="{{ item.url }}">
+          <img src="/assets/templates/{{ item.template_id }}/thumb.jpg" alt="{{ item.title }}">
+        </a>
+        <a href="https://t.me/memingbot?start={{ item.template_id }}" target="_blank" class="btn-add-meme">
+          add template <i class="icon-paper-plane"></i>
+        </a>
+      </article>
+      {% endfor %}
+    </ul>
+    <a class="js-load-more" href="">LOAD MORE</a>
+    <div class="js-search-error" style="display: none;"></div>
+  </div>
 </section>
