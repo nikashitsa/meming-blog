@@ -156,7 +156,11 @@ p {
       display: none;
     }
     &:disabled {
+      opacity: 1;
       background-color: white;
+      color: $dark-gray-color;
+      -webkit-text-fill-color: $dark-gray-color;
+      -webkit-opacity: 1;
     }
     &:focus {
       outline: none;
@@ -215,7 +219,7 @@ p {
     .name {
       text-overflow: ellipsis;
       overflow: hidden;
-      direction: rtl;
+      white-space: nowrap;
       display: inline-block;
       max-width: 200px;
       @media (max-width: $break-small) {
