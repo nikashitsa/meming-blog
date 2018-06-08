@@ -179,6 +179,34 @@ $(function() {
     $searchInput.val('').prop('disabled', false).show();
     search();
   });
+
+  var $slick = $('#tutorial-slick');
+  var tutorialSend = $('#tutorial-send')[0];
+  var tutorialAdd = $('#tutorial-add')[0];
+
+  $slick.on('init', function() {
+    $slick.addClass('visible')
+    tutorialSend.play()
+  });
+  $slick.on('afterChange', function(e, slick, slide) {
+    if (slide == 0) {
+      tutorialSend.play()
+      tutorialAdd.pause()
+      tutorialAdd.currentTime = 0
+    } else if (slide == 1) {
+      tutorialAdd.play()
+      tutorialSend.pause()
+      tutorialSend.currentTime = 0
+    }
+  });
+
+  $slick.slick({
+    draggable: false,
+    swipe: false,
+    infinite: false,
+    touchMove: false,
+    adaptiveHeight: true
+  });
 });
 </script>
 
@@ -203,16 +231,32 @@ $(function() {
   <hr>
   <p class="light italic small">Hi, I am a simple meme generator for <a href="https://telegram.org/">telegram</a>. This is how I do.</p>
   <hr>
-  <div class="tutorial-wrapper">
-    <video autoplay loop muted playsinline>
-      <source src="/assets/tutorial/video.mp4" type="video/mp4">
-      <source src="/assets/tutorial/video.webm" type="video/webm">
-    </video>
+  <div id="tutorial-slick">
+    <div>
+      <div class="tutorial-wrapper">
+        <video id="tutorial-send" autoplay loop muted playsinline>
+          <source src="/assets/tutorial/send.mp4" type="video/mp4">
+          <source src="/assets/tutorial/send.webm" type="video/webm">
+        </video>
+      </div>
+      <p>
+        Enter @memingbot, enter meme's text and I'll create a funny picture. <br>
+        For example: <span class="highlight-span">@memingbot hello. bro!</span>
+      </p>
+    </div>
+    <div>
+      <div class="tutorial-wrapper">
+        <video id="tutorial-add" autoplay loop muted playsinline>
+          <source src="/assets/tutorial/add.mp4" type="video/mp4">
+          <source src="/assets/tutorial/add.webm" type="video/webm">
+        </video>
+      </div>
+      <p>
+        Add your own templates. <br>
+        Send me <span class="highlight-span">/add</span> and I will help you.
+      </p>
+    </div>
   </div>
-  <p>
-    Enter @memingbot, enter meme's text and I'll create a funny picture. <br>
-    For example: <span class="highlight-span">@memingbot hello. bro!</span>
-  </p>
   <a href="https://t.me/memingbot" target="_blank" class="btn-send-meme">
     send meme <i class="icon-paper-plane"></i>
   </a>

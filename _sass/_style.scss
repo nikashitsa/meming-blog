@@ -3,6 +3,9 @@
 @import "typography";
 @import "icons";
 
+@import "_slick";
+@import "_slick-theme";
+
 /* Pretty Standard
  * * * * * * * * * * */
 * {
@@ -402,4 +405,11 @@ img.profile-picture {
   height: 40px;
   line-height: 40px;
   padding: 0 18px;
+}
+
+#tutorial-slick {
+  opacity: 0;
+  &.visible {
+    opacity: 1;
+  }
 }
