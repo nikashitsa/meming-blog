@@ -15,7 +15,7 @@
 # in the templates via {{ site.myvariable }}.
 title: Meming Bot
 description: "Simple meme generator for telegram"
-keywords: "telegram, meme, bot"
+keywords: "meme, telegram, bot"
 url: "https://memingbot.ml" # the base hostname & protocol for your site
 permalink: none
 comments: true
