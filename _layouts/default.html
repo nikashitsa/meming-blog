@@ -3,7 +3,17 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-  <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
+  <title>
+    {% if page.title %}
+      {% if page.layout == 'post-extended' %}
+        {{ page.title }} - Meme Template
+      {% else %}
+        {{ page.title }} - {{ site.title }}
+      {% endif %}
+    {% else %}
+      {{ site.title }}
+    {% endif %}
+  </title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,300i,400i,600">
   <link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400,100italic,300italic,300' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
@@ -27,9 +37,9 @@
     <nav class="nav">
       <div class="container">
         <a href="/">
-          <h1 class="logo">
+          <div class="logo">
             {{ site.title }}
-          </h1>
+          </div>
         </a>
         <ul class="navlist">
         </ul>
