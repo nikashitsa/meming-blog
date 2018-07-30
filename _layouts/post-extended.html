@@ -38,7 +38,8 @@ layout: default
 
     <h2>Other Memes</h2>
     <div>
-    {% for meme in site.meme-templates %}
+    {% assign memeTemplates = site.meme-templates | reverse %}
+    {% for meme in memeTemplates %}
       {% if page.other_memes contains meme.template_id %}
       <a class="meme-template-thumb" title="{{ meme.title }}" href="{{ meme.url }}">
         <img src="/assets/templates/{{meme.template_id}}/thumb.jpg" alt="{{ meme.title }}">
