@@ -276,9 +276,11 @@ p {
       padding-bottom: 15px;
     }
   }
+  &.comments {
+    padding-top: 0;
+  }
   &.meme-template-extended {
     text-align: center;
-    padding-bottom: 0;
     h1 {
       margin-top: 0;
     }
