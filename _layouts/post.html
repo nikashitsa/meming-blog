@@ -8,6 +8,11 @@ layout: default
     <a href="https://t.me/memingbot?start={{ page.template_id }}" target="_blank" class="btn-add-meme">
       add template <i class="icon-paper-plane"></i>
     </a>
+    {% if page.wiki %}
+    <a href="{{ page.wiki }}" class="link-meming-wiki">
+      Read description
+    </a>
+    {% endif %}
   </div>
   {% include share.html %}
 </div>
