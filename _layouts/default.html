@@ -5,11 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
   <title>
     {% if page.title %}
-      {% if page.layout == 'post-extended' %}
-        {{ page.title }} - Meme Template
-      {% else %}
-        {{ page.title }} - {{ site.title }}
-      {% endif %}
+      {{ page.title }} - {{ site.title }}
     {% else %}
       {{ site.title }}
     {% endif %}
@@ -17,7 +13,7 @@
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,300i,400i,600">
   <link href='https://fonts.googleapis.com/css?family=Roboto+Mono:400,100italic,300italic,300' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
-  <meta name="description" content="{% if page.title %}Meme template: {{ page.title }}{% else %}{{ site.description }}{% endif %}"/>
+  <meta name="description" content="{% if page.title %}{{ page.title }}{% else %}{{ site.description }}{% endif %}"/>
   <meta name="keywords" content="{{ site.keywords }}"/>
   <meta name="google-site-verification" content="{{ site.google_site_verification }}" />
   <link rel="stylesheet" href="{{"/assets/styles/main.css" | prepend: site.baseurl }}?{{site.time | date: '%s%N'}}">
