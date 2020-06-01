@@ -4,3 +4,4 @@ _site
 .DS_Store
 .idea/
 docker-compose.prod.yml
+README.prod.md
