@@ -3,7 +3,7 @@
 
 #### Development
 ```
-jekyll s
+bundle exec jekyll s
 docker-compose up -d
 open http://localhost/
 ```

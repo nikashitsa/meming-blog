@@ -9,7 +9,7 @@ GEM
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
     eventmachine (1.2.7)
-    execjs (2.7.0)
+    execjs (2.8.1)
     ffi (1.9.25)
     forwardable-extended (2.6.0)
     http_parser.rb (0.6.0)
@@ -56,7 +56,7 @@ GEM
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
-    uglifier (4.1.19)
+    uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
     yui-compressor (0.12.0)
 
