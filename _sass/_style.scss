@@ -47,6 +47,13 @@ hr.gradient {
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.1));
 }
 
+::-webkit-file-upload-button {
+  cursor:pointer;
+}
+input[type=file] {
+  cursor:pointer;
+}
+
 body {
   width: 100%;
   height: 100%;
@@ -177,8 +184,7 @@ p {
     width: 100%;
     height: 40px;
     opacity: 0;
-    cursor: pointer;
-    font-size: 200px !important;
+    font-size: 0 !important;
     direction: ltr;
     &:focus {
       outline: none;
