@@ -16,7 +16,7 @@
 title: Meming Bot
 description: "Simple meme generator for telegram"
 keywords: "meme, telegram, bot"
-url: "https://memingbot.ml" # the base hostname & protocol for your site
+url: "https://bot.meming.world" # the base hostname & protocol for your site
 permalink: none
 comments: true
 google_analytics: true

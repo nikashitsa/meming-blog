@@ -1,4 +1,4 @@
 User-agent: *
 
-Sitemap: https://memingbot.ml/sitemap.xml
-Host: memingbot.ml
+Sitemap: https://bot.meming.world/sitemap.xml
+Host: bot.meming.world
