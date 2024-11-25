@@ -46,3 +46,10 @@ compress:
   js: '/assets/js/*.js'
   css: '/assets/styles/*.css'
   img: '/assets/**/*.{jpg,png}'
+
+exclude:
+  - 'nginx-custom.conf'
+  - 'docker-compose*'
+  - 'Gemfile'
+  - 'Dockerfile'
+  - 'README'
